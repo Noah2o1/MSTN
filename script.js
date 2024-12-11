@@ -13,6 +13,7 @@ let matchedCards = 0;
 let isFlipping = false;
 let timerInterval = null;
 let gameStarted = false; // New variable to track game start
+let isGameLocked = true; // New variable to lock the game at the start
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -58,10 +59,17 @@ function createBoard() {
   board.classList.add('zoom-in');
   setTimeout(() => {
     initialCardFlipSequence();
+
+    // Unlock the game after 8 seconds
+    setTimeout(() => {
+      isGameLocked = false;
+    }, 8000); // 8-second delay
   }, 2000); // Adjust delay (2 seconds here)
 }
 
 function handleCardClick(event) {
+  if (isGameLocked) return; // Prevent clicking if the game is locked
+
   const card = event.currentTarget;
 
   if (!gameStarted) {
@@ -156,6 +164,7 @@ resetButton.addEventListener('click', () => {
   matchedCards = 0;
   isFlipping = false;
   gameStarted = false; // Reset game start
+  isGameLocked = true; // Lock the game at the start
   congratulationsMessage.style.display = 'none';
   createBoard();
 });
