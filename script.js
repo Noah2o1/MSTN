@@ -125,7 +125,7 @@ function initialCardFlipSequence() {
         setTimeout(() => {
           cardElements.forEach((card) => card.classList.remove('flip'));
           isGameLocked = false; // Unlock the game here after flips are completed
-        }, 2000); // Delay before flipping back (2 seconds here)
+        }, 8000); // Delay before flipping back (8 seconds here)
       }
     }, index * 400); // Staggered flipping (400ms per card)
   });
