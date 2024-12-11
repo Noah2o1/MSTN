@@ -59,8 +59,6 @@ function createBoard() {
   board.classList.add('zoom-in');
   setTimeout(() => {
     initialCardFlipSequence();
-
-    // Unlock the game after the sequence and delay
   }, 2000); // Adjust delay (2 seconds here)
 }
 
