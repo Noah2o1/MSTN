@@ -60,10 +60,7 @@ function createBoard() {
   setTimeout(() => {
     initialCardFlipSequence();
 
-    // Unlock the game after 8 seconds
-    setTimeout(() => {
-      isGameLocked = false;
-    }, 8000); // 8-second delay
+    // Unlock the game after the sequence and delay
   }, 2000); // Adjust delay (2 seconds here)
 }
 
@@ -129,6 +126,7 @@ function initialCardFlipSequence() {
         // After all cards flip to the number side, flip them back
         setTimeout(() => {
           cardElements.forEach((card) => card.classList.remove('flip'));
+          isGameLocked = false; // Unlock the game here after flips are completed
         }, 2000); // Delay before flipping back (2 seconds here)
       }
     }, index * 400); // Staggered flipping (400ms per card)
