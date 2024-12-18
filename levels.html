@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Level - Memory Card Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #cce7ff; /* Brighter, wintry blue */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centering horizontally */
+      justify-content: center; /* Centering vertically */
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Prevent scrollbars */
+      position: relative; /* Required for snowflakes to appear on top */
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: #004d80; /* Deep blue color */
+      margin-bottom: 20px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .levels-container {
+      text-align: center;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      animation: slideIn 1s ease-in-out;
+      z-index: 10; /* Ensure the level selection is on top */
+    }
+
+    .level-option {
+      margin: 15px 0;
+    }
+
+    .level-button {
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      color: white;
+      background-color: #007bbd; /* Rich blue */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .level-button:hover {
+      background-color: #005c8a; /* Darker blue */
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .level-button:active {
+      transform: scale(0.95) translateY(0);
+    }
+
+    .back-button {
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.5rem;
+      color: white;
+      background-color: #d32f2f; /* Red */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button:hover {
+      background-color: #b71c1c; /* Darker red */
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .back-button:active {
+      transform: scale(0.95) translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Snowflakes */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 30px;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* Snow Accumulation */
+    .snow-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to top, #ffffff, transparent);
+      z-index: 2;
+    }
+
+    .snow-bottom::before, .snow-bottom::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background: radial-gradient(circle, #ffffff 30%, transparent 70%);
+    }
+
+    .snow-bottom::before {
+      left: -10px;
+    }
+
+    .snow-bottom::after {
+      right: -10px;
+    }
+
+    /* More pulsing decorations */
+    .pulsing-decoration {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #ffffff 20%, transparent 80%);
+      opacity: 0.4;
+      filter: blur(15px);
+      animation: pulse 3s infinite;
+    }
+
+    .pulsing-decoration:nth-child(2) { top: 15%; left: 85%; animation-delay: 0.5s; }
+    .pulsing-decoration:nth-child(3) { top: 65%; left: 10%; animation-delay: 1s; }
+    .pulsing-decoration:nth-child(4) { top: 40%; left: 50%; animation-delay: 1.5s; }
+    .pulsing-decoration:nth-child(5) { top: 70%; left: 75%; animation-delay: 2s; }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Snowflakes -->
+  <div class="snowflakes-container"></div>
+
+  <!-- Snow Accumulation -->
+  <div class="snow-bottom"></div>
+
+  <!-- Pulsing Decorations -->
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+
+  <!-- Levels Container -->
+  <div class="levels-container">
+    <h1>Select a Level</h1>
+
+    <!-- Level Buttons -->
+    <div class="level-option">
+      <button class="level-button" onclick="selectLevel(1)">Level 1</button>
+    </div>
+    <div class="level-option">
+      <button class="level-button" onclick="selectLevel(2)">Level 2</button>
+    </div>
+    <div class="level-option">
+      <button class="level-button" onclick="selectLevel(3)">Level 3</button>
+    </div>
+    <div class="level-option">
+      <button class="level-button" onclick="selectLevel(4)">Level 4</button>
+    </div>
+
+    <!-- Back to Main Menu Button -->
+    <button class="back-button" onclick="goToMainMenu()">Back to Main Menu</button>
+  </div>
+
+  <script>
+    // Snowflakes effect
+    function createSnowflake() {
+      const snowflake = document.createElement('div');
+      snowflake.classList.add('snowflake');
+      snowflake.innerHTML = '❄'; // Snowflake symbol
+      snowflake.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+      snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Random speed
+      snowflake.style.fontSize = (Math.random() * 10 + 15) + 'px'; // Random size
+      document.body.appendChild(snowflake);
+
+      // Remove snowflake after it finishes falling
+      setTimeout(() => {
+        snowflake.remove();
+      }, 5000);
+    }
+
+    setInterval(createSnowflake, 100); // Create snowflakes every 100ms
+
+    function selectLevel(level) {
+      localStorage.setItem('selectedLevel', level);
+      window.location.href = `level${level}.html`;  // Redirect to the selected level page
+    }
+
+    function goToMainMenu() {
+      window.location.href = 'index.html';  // Redirect to the main menu
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #cce7ff; /* Brighter, wintry blue */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding-left: 30px;
+      overflow: hidden; /* Prevent scrollbars */
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      color: #004d80; /* Deep blue color */
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .menu {
+      margin-top: 20px;
+      animation: slideIn 1s ease-in-out;
+    }
+
+    .menu button {
+      background-color: #007bbd; /* Rich blue */
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin-bottom: 15px;
+      width: 220px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .menu button:hover {
+      background-color: #005c8a; /* Darker blue */
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .menu button:active {
+      transform: scale(0.95) translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Snowflakes */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      color: #fff;
+      font-size: 30px;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+
+    /* Snow Accumulation */
+    .snow-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to top, #ffffff, transparent);
+      z-index: 2;
+    }
+
+    .snow-bottom::before, .snow-bottom::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background: radial-gradient(circle, #ffffff 30%, transparent 70%);
+    }
+
+    .snow-bottom::before {
+      left: -10px;
+    }
+
+    .snow-bottom::after {
+      right: -10px;
+    }
+
+    /* More pulsing decorations */
+    .pulsing-decoration {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #ffffff 20%, transparent 80%);
+      opacity: 0.4;
+      filter: blur(15px);
+      animation: pulse 3s infinite;
+    }
+
+    .pulsing-decoration:nth-child(2) { top: 15%; left: 85%; animation-delay: 0.5s; }
+    .pulsing-decoration:nth-child(3) { top: 65%; left: 10%; animation-delay: 1s; }
+    .pulsing-decoration:nth-child(4) { top: 40%; left: 50%; animation-delay: 1.5s; }
+    .pulsing-decoration:nth-child(5) { top: 70%; left: 75%; animation-delay: 2s; }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+      }
+    }
+
+    /* Settings Menu */
+    .settings-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background-color: #fff;
+      color: #333;
+      width: 400px;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      display: none;
+      opacity: 0;
+      animation: none;
+    }
+
+    .settings-menu h2 {
+      margin: 0;
+      color: #007bbd;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    .settings-menu ul {
+      list-style: none;
+      padding: 20px 0 0 0;
+      margin: 0;
+    }
+
+    .settings-menu li {
+      margin: 15px 0;
+    }
+
+    .settings-menu label {
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+
+    .settings-menu button {
+      background-color: #007bbd;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .settings-menu button:hover {
+      background-color: #005c8a;
+    }
+
+    @keyframes popOpen {
+      from {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes popClose {
+      from {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Snow Accumulation -->
+  <div class="snow-bottom"></div>
+
+  <!-- Pulsing Decorations -->
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+  <div class="pulsing-decoration"></div>
+
+  <!-- Main Menu -->
+  <h1>Memory Game</h1>
+  <div class="menu">
+    <button onclick="window.location.href='levels.html'">Play</button>
+    <button onclick="toggleSettingsMenu()">Settings</button>
+    <button onclick="alert('Stats will be added later!')">Stats</button>
+  </div>
+
+  <!-- Settings Menu -->
+  <div class="settings-menu" id="settingsMenu">
+    <h2>Settings</h2>
+    <ul>
+      <li>
+        <label for="sound">Sound:</label>
+        <input type="checkbox" id="sound" checked>
+      </li>
+      <li><button onclick="closeSettingsMenu()">Close</button></li>
+    </ul>
+  </div>
+
+  <script>
+    const settingsMenu = document.getElementById('settingsMenu');
+  
+    window.onload = function () {
+      // Add snowflakes to the screen dynamically
+      addSnowflakes();
+    };
+  
+    function toggleSettingsMenu() {
+      if (settingsMenu.style.display === 'none' || settingsMenu.style.display === '') {
+        settingsMenu.style.display = 'block';
+        settingsMenu.style.animation = 'popOpen 0.5s forwards';
+      } else {
+        settingsMenu.style.animation = 'popClose 0.5s forwards';
+        setTimeout(() => {
+          settingsMenu.style.display = 'none';
+        }, 500);
+      }
+    }
+  
+    function closeSettingsMenu() {
+      settingsMenu.style.animation = 'popClose 0.5s forwards';
+      setTimeout(() => {
+        settingsMenu.style.display = 'none';
+      }, 500);
+    }
+
+    // Function to add snowflakes to the page
+    function addSnowflakes() {
+      for (let i = 0; i < 50; i++) {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.innerHTML = '❄';
+        snowflake.style.left = `${Math.random() * 100}%`;
+        snowflake.style.animationDuration = `${Math.random() * 3 + 5}s`;
+        snowflake.style.fontSize = `${Math.random() * 15 + 10}px`;
+        snowflake.style.animationDelay = `${Math.random() * 3}s`;
+        document.body.appendChild(snowflake);
+      }
+    }
+  </script>
+</body>
+</html>
